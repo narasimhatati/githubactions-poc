@@ -16,6 +16,7 @@ jobs:
       run: |
         git fetch origin main:feature2
         git diff --name-only -r HEAD^1 HEAD
-      
+    - name: run sh file1
+      run: sh files_changed.sh 
     - name: run sh file
       run: sh filesh.sh
