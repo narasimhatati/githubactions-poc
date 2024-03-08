@@ -12,5 +12,5 @@ jobs:
       
     - name: Run script
       run: bash files_changed.sh
-    -name: 2nd sh file
+    - name: 2nd sh file
       run: sh filesh.sh
