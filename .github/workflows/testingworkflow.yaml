@@ -11,4 +11,4 @@ jobs:
       uses: actions/checkout@v2
       
     - name: Run script
-      run: sh files_changed.sh
+      run: bash files_changed.sh
