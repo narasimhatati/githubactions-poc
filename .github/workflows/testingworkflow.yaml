@@ -11,6 +11,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
+    - name: Modified files
+        run: |
+          git fetch origin main:feature2
+          git diff --name-only --diff-filter=d main~ feature2
       
     - name: Run script
       run: bash files_changed.sh
