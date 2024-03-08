@@ -1,6 +1,6 @@
 name: Check Modified Files
 on:
-  pull:
+  pull_request:
     branches:
       - main
 jobs:
