@@ -1,0 +1,14 @@
+name: Check Modified Files
+on:
+  pull:
+    branches:
+      - main
+jobs:
+  check-modified-files:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Run script
+      run: sh files_changed.sh
