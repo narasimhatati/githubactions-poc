@@ -10,10 +10,11 @@
 # done
 
 # echo "Total number of modified files: $count"
+#!/bin/bash
 
 count=0
 
-if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
+if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
     # For PR workflow
     git diff --name-only ${{ github.event.before }}..${{ github.sha }} | while IFS= read -r file; do
         ((count++))
@@ -21,7 +22,7 @@ if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
         git show --stat --color=always ${{ github.sha }}^..${{ github.sha }}
         git diff --color=always ${{ github.sha }}^..${{ github.sha }} -- "$file"
     done
-elif [ "$GITHUB_EVENT_NAME" == "push" ] && [ "$GITHUB_REF" == "refs/heads/main" ]; then
+elif [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REF" = "refs/heads/main" ]; then
     # For post-merge workflow
     git log --pretty=format:"%h" origin/main..HEAD | while IFS= read -r commit_hash; do
         if [ -n "$prev_commit_hash" ]; then
