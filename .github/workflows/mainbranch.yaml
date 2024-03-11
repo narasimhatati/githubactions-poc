@@ -14,6 +14,5 @@ jobs:
 
     - name: Modified files
       run: |
-        git fetch origin main:main
         git diff --name-only -r HEAD^1 HEAD
           
