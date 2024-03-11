@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 count=0
 git diff --name-only | while IFS= read -r file; do
@@ -8,3 +8,4 @@ git diff --name-only | while IFS= read -r file; do
 done
 
 echo "Total number of modified files: $count"
+
