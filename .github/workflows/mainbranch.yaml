@@ -13,5 +13,7 @@ jobs:
         fetch-depth: 0
 
     - name: Modified files
-      run: sh filesh.sh
+      run: |
+        git fetch origin main:feature2
+        git diff --name-only -r HEAD^1 HEAD
           
