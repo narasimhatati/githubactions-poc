@@ -15,8 +15,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+
       - name: YAML linting
-        uses: ansible/ansible-lint-action
+        uses: docker://quintoandar/yamllint-action:latest
         with:
           path: |
             **/*.yaml
