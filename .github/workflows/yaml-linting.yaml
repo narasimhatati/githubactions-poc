@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: YAML linting
-        uses: ansible/ansible-lint-action@v5
+        uses: ansible/ansible-lint-action
         with:
           path: |
             **/*.yaml
