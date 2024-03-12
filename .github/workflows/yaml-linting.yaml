@@ -17,9 +17,13 @@ jobs:
 
 
       - name: YAML linting
-        uses: docker://quintoandar/yamllint-action:latest
+        uses: karancode/yamllint-github-action@master
         with:
-          path: |
+          yamllint_comment: true
+          yamllint_file_or_dir: |
             **/*.yaml
             **/*.yml
+          # path: |
+          #   **/*.yaml
+          #   **/*.yml
             
