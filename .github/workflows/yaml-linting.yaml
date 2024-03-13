@@ -26,4 +26,4 @@ jobs:
           pip install yamllint
 
       - name: Lint YAML files
-        run: yamllint -c .yamllint ./**/*.yaml ./**/*.yml
+        run: yamllint -c .yamllint .

@@ -4,8 +4,7 @@ rules:
   document-start:
     present: true
   trailing-spaces: enable
-  new-line-at-end-of-file:
-    type: unix
+  # new-line-at-end-of-file: 
   new-lines:
     type: unix
   indentation:
