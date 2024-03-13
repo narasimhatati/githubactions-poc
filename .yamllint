@@ -5,7 +5,7 @@ rules:
     present: true
   trailing-spaces: enable
   new-line-at-end-of-file:
-    present: true
+    type: unix
   new-lines:
     type: unix
   indentation:
