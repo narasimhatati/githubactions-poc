@@ -1,0 +1,16 @@
+---
+extends: default
+rules:
+  document-start:
+    present: true
+  trailing-spaces: enable
+  new-line-at-end-of-file:
+    present: true
+  new-lines:
+    type: unix
+  indentation:
+    spaces: 2
+  comments:
+    require-starting-space: true
+    ignore-shebangs: true
+    min-spaces-from-content: 2

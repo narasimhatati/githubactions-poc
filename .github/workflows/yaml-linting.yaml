@@ -1,3 +1,4 @@
+---
 name: testing yaml linting
 
 on:
@@ -13,17 +14,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-
-      - name: YAML linting
-        uses: karancode/yamllint-github-action@master
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          yamllint_comment: true
-          yamllint_file_or_dir: |
-            **/*.yaml
-            **/*.yml
-          # path: |
-          #   **/*.yaml
-          #   **/*.yml
-            
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install yamllint
+
+      - name: Lint YAML files
+        run: yamllint -c .yamllint ./**/*.yaml ./**/*.yml
