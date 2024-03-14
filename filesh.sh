@@ -12,4 +12,3 @@ git log --pretty=format:"%h" origin/main..HEAD | while IFS= read -r commit_hash;
 done
 
 echo "Total number of modified files: $count"
-

@@ -27,10 +27,4 @@ jobs:
 
       - name: Automate Lint YAML files
         run: |
-          yamllint --fix -c .yamllint .
-          yamllint -c .yamllint .
-          lint_exit_code=$?
-          
-          if [ $lint_exit_code -ne 0 ]; then
-            yamllint --fix -c .yamllint .
-          fi
+          ./yamllint-fix.sh
