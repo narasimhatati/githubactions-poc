@@ -27,6 +27,7 @@ jobs:
 
       - name: Automate Lint YAML files
         run: |
+          yamllint --fix -c .yamllint .
           yamllint -c .yamllint .
           lint_exit_code=$?
           
