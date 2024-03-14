@@ -27,4 +27,5 @@ jobs:
 
       - name: Automate Lint YAML files
         run: |
+          chmod +x yamllint-fix.sh
           ./yamllint-fix.sh
