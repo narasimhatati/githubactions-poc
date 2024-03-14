@@ -27,4 +27,4 @@ jobs:
 
       - name: Automate Lint YAML files
         run: |
-          ./lint_yaml.sh
+          ./yamllint-fix.sh
