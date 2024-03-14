@@ -31,4 +31,4 @@ rules:
   key-duplicates: {}
   quoted-strings:
     quote-type: any
-    required: true
+    required: only-when-needed
