@@ -57,4 +57,4 @@ jobs:
           fi
           git add .
           git commit -m "automate yaml lint errors-auto commit"
-          git push
+          git push origin HEAD
