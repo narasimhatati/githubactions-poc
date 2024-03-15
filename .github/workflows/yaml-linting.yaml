@@ -44,6 +44,8 @@ jobs:
       
       - name: Commit and push changes
         if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config --global user.name "narasimhatati"
           git config --global user.email "narasimhatati1993@gmail.com"
