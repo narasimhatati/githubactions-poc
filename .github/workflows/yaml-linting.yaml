@@ -24,8 +24,16 @@ jobs:
       - name: Install dependencies
         run: |
           pip install yamllint
+          pip install pyyaml
+          pip install ruamel.yaml
 
       - name: Automate Lint YAML files
+        id: lint_yaml
         run: |
-          chmod +x yamllint-fix.sh
-          ./yamllint-fix.sh
+          yamllint -c .yamllint .
+        continue-on-error: true
+
+      - name: Fix YAML files
+        if: ${{ failure() }}
+        run: |
+          python fix_yaml.py
