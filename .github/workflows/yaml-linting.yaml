@@ -50,10 +50,6 @@ jobs:
       
       - name: Commit and push changes
         if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
-        uses: actions/checkout@v4
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          branch: autofix-lintissues
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
@@ -65,5 +61,10 @@ jobs:
           fi
           git add .
           git commit -m "automate yaml lint errors-auto commit"
-          git push origin HEAD
-        
+#          git push origin HEAD
+      - name: Push Changes
+        uses: actions/checkout@v4
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          branch: autofix-lintissues
+
