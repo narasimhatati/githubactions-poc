@@ -48,7 +48,6 @@ jobs:
           git config --global user.name "narasimhatati"
           git config --global user.email "narasimhatati1993@gmail.com"
           git fetch
-          git pull
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             git checkout "refs/heads/${{ github.head_ref }}"
           else
