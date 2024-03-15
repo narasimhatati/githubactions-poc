@@ -40,6 +40,7 @@ jobs:
       - name: Fix YAML files
         if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
         run: |
+          chmod +x yamllint-fix.sh
           ./yamllint-fix.sh
 #          python fix_yaml.py
       
