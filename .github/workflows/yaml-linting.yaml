@@ -35,5 +35,6 @@ jobs:
 
       - name: Fix YAML files
         if: ${{ failure() }}
+        needs: lint_yaml
         run: |
           python fix_yaml.py
