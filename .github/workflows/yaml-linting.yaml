@@ -45,4 +45,4 @@ jobs:
       - name: Fix YAML files
         if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
         run: |
-          python fix-yaml.py
+          python fix_yaml.py
