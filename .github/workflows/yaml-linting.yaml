@@ -33,11 +33,6 @@ jobs:
           yamllint -c .yamllint .
         continue-on-error: true
 
-      # - name: Fix YAML files
-      #   if: ${{ failure() }}
-      #   needs: lint_yaml
-      #   run: |
-      #     python fix_yaml.py
       - name: Set linting success
         if: steps.lint_yaml.outcome == 'success'
         run: echo "::set-output name=lint_success::true"
@@ -46,3 +41,12 @@ jobs:
         if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
         run: |
           python fix_yaml.py
+      
+      - name: Commit and push changes
+        if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git commit -m "automate yaml lint errors-auto commit"
+          git push
