@@ -26,6 +26,4 @@ jobs:
           pip install yamllint
 
       - name: Automate Lint YAML files
-        run: |
-          chmod +x yamllint-fix.sh
-          ./yamllint-fix.sh
+        uses: opt-nc/yamlfixer-action
