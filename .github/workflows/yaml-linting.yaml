@@ -62,7 +62,7 @@ jobs:
           fi
           git add .
           git commit -m "automate yaml lint errors-auto commit"
-#          git push origin HEAD
+          git push origin HEAD
       - name: Push Changes
         uses: actions/checkout@v4
         with:
