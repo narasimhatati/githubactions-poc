@@ -8,6 +8,8 @@ on:
   pull_request:
     branches:
       - main
+env:
+  PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -15,9 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
+          github_token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 0
 
       - name: Set up Python
