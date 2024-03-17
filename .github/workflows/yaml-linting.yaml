@@ -48,10 +48,6 @@ jobs:
           chmod +x yamllint-fix.sh
           ./yamllint-fix.sh
 #          python fix_yaml.py
-      - name: Push Changes
-        uses: actions/checkout@v4
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
       - name: Commit and push changes
         if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
         run: |
