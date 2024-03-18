@@ -12,27 +12,16 @@ fix_yaml() {
         fixes+=("Start of file: { original: \"\", fixed: \"--- added\" }")
     fi
 
-    # Correct indentation
     sed -i 's/^\t/  /g' "$filename"
     sed -i 's/^  $/  /g' "$filename"
 
-    # Fix trailing spaces
-    # while IFS= read -r line || [[ -n "$line" ]]; do
-    #     key=$(echo "$line" | cut -d':' -f1)
-    #     value=$(echo "$line" | cut -d':' -f2-)
-    #     fixed_value=$(echo "$value" | sed 's/[[:space:]]*$//')
-    #     if [[ "$fixed_value" != "$value" ]]; then
-    #         fixes+=("$key: { original: \"$value\", fixed: \"$fixed_value\" }")
-    #     fi
-    #     echo "$key: $fixed_value"
-    # done < "$filename" > "$filename.tmp"
+    sed -i -E 's/[[:space:]]+$//; ${/^$/!s/$/\n/}' "$filename"
 
-    # mv "$filename.tmp" "$filename"
-    # echo "Fixed YAML file: $filename"
-    sed -i -E 's/[[:space:]]+$//; s/ *: */: /' "$filename"
-
-    echo "Fixed YAML file: $filename"
-    # printf '%s\n' "${fixes[@]}"
+    if ! grep -q 'new-lines:\s*type:\s*unix' "$filename"; then
+        echo "new-lines:" >> "$filename"
+        echo "  type: unix" >> "$filename"
+        fixes+=("new-lines: type: unix added")
+    fi
 }
 
 process_files() {
@@ -40,7 +29,6 @@ process_files() {
     declare -A all_fixes=()  # Associative array to store fixes for all files
 
     for filepath in "${file_paths[@]}"; do
-        # Check if filepath is the file to be ignored
         if [ "$filepath" != "./.github/workflows/yaml-linting.yaml" ]; then
             fixes=$(fix_yaml "$filepath")
             if [ -n "$fixes" ]; then
