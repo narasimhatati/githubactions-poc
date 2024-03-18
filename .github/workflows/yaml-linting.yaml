@@ -13,7 +13,7 @@ on:
       - main
 
 permissions:
-    contents: write
+  contents: write
 jobs:
   lint:
     runs-on: ubuntu-latest
