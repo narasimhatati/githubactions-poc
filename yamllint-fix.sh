@@ -15,10 +15,10 @@ fix_yaml() {
 
     # Correct indentation
     sed -i 's/^\t/  /g' "$filename"
-    # sed -i 's/^  $/  /g' "$filename"
-    # sed -i 's/^[[:space:]]\{3,\}/ /g' "$filename"
-
-    # Remove trailing spaces and ensure a single newline at the end of the file
+    sed -i 's/^  $/  /g' "$filename"
+    sed -i 's/^ \{1,3\}/  /g' "$filename"
+    sed -i 's/:\s*/: /g' "$filename"
+    # Remove trailing spaces 
     sed -i -E 's/[[:space:]]+$//' "$filename"
 
     # Remove extra empty lines in the middle of the file

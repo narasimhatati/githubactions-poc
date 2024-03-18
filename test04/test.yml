@@ -2,7 +2,9 @@
 
 apiVersion: v1
 kind:  Deployment
+    name:
 metadata:
-  name:
+   name:
 spec:
+ name:
 
