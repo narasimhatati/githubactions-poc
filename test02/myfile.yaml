@@ -1,8 +1,5 @@
 ---
 apiVersion:
-kind:
+kind:  
 metaData:
-spec:
-
-new-lines:
-  type: unix
+spec: 

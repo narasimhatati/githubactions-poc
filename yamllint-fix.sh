@@ -5,6 +5,7 @@ fix_yaml() {
     local fixes=()
     local last_line=$(tail -n1 "$filename" | tr -d '\n\r')
 
+    # Ensure the file starts with '---'
     if ! head -n1 "$filename" | grep -q '^\-\-\-$'; then
         echo '---' > "$filename.tmp"
         cat "$filename" >> "$filename.tmp"
@@ -12,16 +13,20 @@ fix_yaml() {
         fixes+=("Start of file: { original: \"\", fixed: \"--- added\" }")
     fi
 
+    # Correct indentation
     sed -i 's/^\t/  /g' "$filename"
     sed -i 's/^  $/  /g' "$filename"
 
+    # Remove trailing spaces and ensure a single newline at the end of the file
     sed -i -E 's/[[:space:]]+$//; ${/^$/!s/$/\n/}' "$filename"
 
+    # Check for 'new-lines: type: unix' rule
     if ! grep -q 'new-lines:\s*type:\s*unix' "$filename"; then
-        echo "new-lines:" >> "$filename"
-        echo "  type: unix" >> "$filename"
-        fixes+=("new-lines: type: unix added")
+        fixes+=("new-lines: type: unix rule missing")
     fi
+
+    echo "Fixed YAML file: $filename"
+    printf '%s\n' "${fixes[@]}"
 }
 
 process_files() {
