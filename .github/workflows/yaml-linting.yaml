@@ -13,7 +13,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     env:
-      PAT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -50,6 +50,8 @@ jobs:
 #          python fix_yaml.py
       - name: Commit and push changes
         if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
