@@ -6,10 +6,10 @@ fix_yaml() {
     local last_line=$(tail -n1 "$filename" | tr -d '\n\r')
 
     # Add a newline at the end of the file if missing
-    if [ "$last_line" != "" ]; then
-        echo >> "$filename"
-        fixes+=("End of file: { original: \"Missing newline\", fixed: \"Added newline\" }")
-    fi
+    # if [ "$last_line" != "" ]; then
+    #     echo >> "$filename"
+    #     fixes+=("End of file: { original: \"Missing newline\", fixed: \"Added newline\" }")
+    # fi
 
     # Correct indentation
     sed -i 's/^\t/  /g' "$filename"
