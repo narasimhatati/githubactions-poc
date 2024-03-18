@@ -32,7 +32,6 @@ fix_yaml() {
         fixes+=("End of file: { original: \"\", fixed: \"Added newline\" }")
     fi
 
-    # Check for 'new-lines: type: unix' rule
     if ! grep -q 'new-lines:\s*type:\s*unix' "$filename"; then
         fixes+=("new-lines: type: unix rule missing")
     fi
