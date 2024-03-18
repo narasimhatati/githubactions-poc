@@ -1,8 +1,8 @@
 ---
 
 apiVersion: v1
-kind: Deployment 
+kind: Deployment
 metadata:
-    name:
-spec:  
+  name:
+spec:
 
