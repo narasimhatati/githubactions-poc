@@ -16,7 +16,7 @@ fix_yaml() {
     # Correct indentation
     sed -i 's/^\t/  /g' "$filename"
     sed -i 's/^  $/  /g' "$filename"
-    sed -i 's/^    /  /g' "$filename"  # Convert four spaces to two spaces
+    sed -i 's/^[[:space:]]\{2,\}/ /g' "$filename"
 
     # Remove trailing spaces and ensure a single newline at the end of the file
     sed -i -E 's/[[:space:]]+$//; ${/^$/!s/$/\n/}' "$filename"
