@@ -37,7 +37,7 @@ process_files() {
 
     for filepath in "${file_paths[@]}"; do
         # Check if filepath is the file to be ignored
-        if [ "$filepath" != ".github/workflows/yaml-linting.yaml" ]; then
+        if [ "$filepath" != "./.github/workflows/yaml-linting.yaml" ]; then
             fixes=$(fix_yaml "$filepath")
             if [ -n "$fixes" ]; then
                 all_fixes["$filepath"]=$fixes
