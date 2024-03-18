@@ -68,7 +68,3 @@ jobs:
           git add .
           git commit -m "automate yaml lint errors-auto commit"
           git push
-      # - name: Push Changes
-      #   uses: actions/checkout@v4
-      #   with:
-      #     github_token: ${{ secrets.PAT_TOKEN }}
