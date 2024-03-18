@@ -16,7 +16,7 @@ fix_yaml() {
     # Correct indentation
     sed -i 's/^\t/  /g' "$filename"
     sed -i 's/^  $/  /g' "$filename"
-    sed -i 's/^[[:space:]]\{2,\}/ /g' "$filename"
+    sed -i 's/^[[:space:]]\{3,\}/ /g' "$filename"
 
     # Remove trailing spaces and ensure a single newline at the end of the file
     sed -i -E 's/[[:space:]]+$//; ${/^$/!s/$/\n/}' "$filename"
@@ -44,7 +44,7 @@ process_files() {
     declare -A all_fixes=()  # Associative array to store fixes for all files
 
     for filepath in "${file_paths[@]}"; do
-        if [ "$filepath" != "./.github/workflows/yaml-linting.yaml" ]; then
+        if [ "$filepath" != "./.github/workflows/*.yaml" ]; then
             fixes=$(fix_yaml "$filepath")
             if [ -n "$fixes" ]; then
                 all_fixes["$filepath"]=$fixes
