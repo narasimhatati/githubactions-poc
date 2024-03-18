@@ -61,7 +61,7 @@ jobs:
           git fetch
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             git checkout ${{ github.head_ref }}
-          else
+          else [ "${{ github.event_name }}" = "push" ]; then
             git checkout ${{ github.ref }}
           fi
           git add .

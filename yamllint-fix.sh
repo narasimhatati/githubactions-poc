@@ -14,26 +14,15 @@ fix_yaml() {
     fi
 
     # Correct indentation
-    sed -i 's/^\t/  /g' "$filename"
-    sed -i 's/^  $/  /g' "$filename"
     sed -i 's/^ \{1,3\}/  /g' "$filename"
     sed -i 's/:\s*/: /g' "$filename"
+    sed -i 's/^\t/  /g' "$filename"
+    sed -i 's/^  $/  /g' "$filename"
     # Remove trailing spaces 
     sed -i -E 's/[[:space:]]+$//' "$filename"
 
     # Remove extra empty lines in the middle of the file
     sed -i '/^$/N;/^\n$/D' "$filename"
-
-    # Ensure only one empty line at the end of the file
-    if [ "$last_line" != "" ]; then
-        echo >> "$filename"
-        fixes+=("End of file: { original: \"\", fixed: \"Added newline\" }")
-    fi
-
-    # Check for 'new-lines: type: unix' rule
-    if ! grep -q 'new-lines:\s*type:\s*unix' "$filename"; then
-        fixes+=("new-lines: type: unix rule missing")
-    fi
 
     echo "Fixed YAML file: $filename"
     printf '%s\n' "${fixes[@]}"
