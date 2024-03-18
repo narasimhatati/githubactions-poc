@@ -12,8 +12,8 @@ fix_yaml() {
     fi
 
     # Correct indentation
-    sed -i 's/^\t/  /g' "$filename"  # Replace tabs with 2 spaces
-    sed -i 's/^  $/  /g' "$filename"  # Remove excess spaces
+    sed -i 's/^\t/  /g' "$filename"
+    sed -i 's/^  $/  /g' "$filename"
 
     # Fix trailing spaces
     while IFS= read -r line || [[ -n "$line" ]]; do
@@ -50,5 +50,6 @@ process_files() {
     done
 }
 
-yaml_files=$(find . -type f \( -name "*.yaml" -o -name "*.yml" \))
-process_files "${yaml_files[@]}"
+find . -type f \( -name "*.yaml" -o -name "*.yml" \) | while IFS= read -r file; do
+    process_files "$file"
+done
