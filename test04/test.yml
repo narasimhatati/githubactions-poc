@@ -3,7 +3,9 @@
 
 apiVersion: v1
 kind: Deployment
-metadata: 
-   name: 
-spec: 
+metadata:
+   name:
+spec:
 
+new-lines:
+  type: unix
