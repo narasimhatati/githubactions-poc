@@ -8,12 +8,12 @@ on:
   pull_request:
     branches:
       - main
-env:
-  PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
-
+    env:
+      PAT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
