@@ -1,4 +1,4 @@
-#!/bin/bash
+# #!/bin/bash
 
 fix_yaml() {
     local filename=$1
@@ -16,9 +16,19 @@ fix_yaml() {
     # Correct indentation
     sed -i 's/^\t/  /g' "$filename"
     sed -i 's/^  $/  /g' "$filename"
+    sed -i 's/^    /  /g' "$filename"  # Convert four spaces to two spaces
 
     # Remove trailing spaces and ensure a single newline at the end of the file
     sed -i -E 's/[[:space:]]+$//; ${/^$/!s/$/\n/}' "$filename"
+
+    # Remove extra empty lines in the middle of the file
+    sed -i '/^$/N;/^\n$/D' "$filename"
+
+    # Ensure only one empty line at the end of the file
+    if [ "$last_line" != "" ]; then
+        echo >> "$filename"
+        fixes+=("End of file: { original: \"\", fixed: \"Added newline\" }")
+    fi
 
     # Check for 'new-lines: type: unix' rule
     if ! grep -q 'new-lines:\s*type:\s*unix' "$filename"; then
