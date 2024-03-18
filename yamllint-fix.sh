@@ -1,4 +1,4 @@
-# #!/bin/bash
+#!/bin/bash
 
 fix_yaml() {
     local filename=$1
@@ -25,7 +25,9 @@ fix_yaml() {
     sed -i '/^$/N;/^\n$/D' "$filename"
 
     # Ensure only one empty line at the end of the file
-    if [ "$last_line" != "" ]; then
+    if [[ $(wc -l < "$filename") -gt 1 ]]; then
+        sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$filename"
+    elif [[ $(wc -l < "$filename") -eq 0 ]]; then
         echo >> "$filename"
         fixes+=("End of file: { original: \"\", fixed: \"Added newline\" }")
     fi
@@ -61,7 +63,3 @@ process_files() {
         done
     done
 }
-
-find . -type f \( -name "*.yaml" -o -name "*.yml" \) | while IFS= read -r file; do
-    process_files "$file"
-done
