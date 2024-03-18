@@ -1,10 +1,10 @@
 ---
 
 apiVersion: v1
-kind:  Deployment
-    name:
-metadata:
+kind: Deployment
    name:
+metadata:
+  name:
 spec:
- name:
+  name:
 
