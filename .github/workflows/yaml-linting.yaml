@@ -61,8 +61,8 @@ jobs:
           fi
           git add .
           git commit -m "automate yaml lint errors-auto commit"
-          git push origin ${{ github.head_ref }}
-      # - name: Push Changes
-      #   uses: actions/checkout@v4
-      #   with:
-      #     github_token: ${{ secrets.PAT_TOKEN }}
+#          git push origin ${{ github.head_ref }}
+      - name: Push Changes
+        uses: actions/checkout@v4
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
