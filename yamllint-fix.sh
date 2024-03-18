@@ -14,7 +14,7 @@ fix_yaml() {
     fi
 
     # Correct indentation
-    # sed -i 's/^\t/  /g' "$filename"
+    sed -i 's/^\t/  /g' "$filename"
     # sed -i 's/^  $/  /g' "$filename"
     # sed -i 's/^[[:space:]]\{3,\}/ /g' "$filename"
 
