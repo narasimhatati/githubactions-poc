@@ -36,9 +36,14 @@ process_files() {
     declare -A all_fixes=()  # Associative array to store fixes for all files
 
     for filepath in "${file_paths[@]}"; do
-        fixes=$(fix_yaml "$filepath")
-        if [ -n "$fixes" ]; then
-            all_fixes["$filepath"]=$fixes
+        # Check if filepath is the file to be ignored
+        if [ "$filepath" != ".github/workflows/yaml-linting.yaml" ]; then
+            fixes=$(fix_yaml "$filepath")
+            if [ -n "$fixes" ]; then
+                all_fixes["$filepath"]=$fixes
+            fi
+        else
+            echo "Skipping file: $filepath"
         fi
     done
 
