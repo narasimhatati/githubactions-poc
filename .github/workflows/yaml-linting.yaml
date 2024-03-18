@@ -25,7 +25,8 @@ jobs:
         with:
           github_token: ${{ secrets.PAT_TOKEN }}
           fetch-depth: 1
-          paths-ignore: ".github/workflows/yaml-linting.yaml"
+          paths-ignore:
+            - '.github/workflows/yaml-linting.yaml'
             
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -56,9 +57,6 @@ jobs:
 
       - name: Commit and push changes
         if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
-        with:
-          paths-ignore:
-            - ".github/workflows/yaml-linting.yaml"
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
