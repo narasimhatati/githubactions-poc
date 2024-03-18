@@ -1,5 +1,5 @@
 ---
-extends: default
+# extends: default
 rules:
   document-start:
     present: true
@@ -29,6 +29,3 @@ rules:
   hyphens:
     max-spaces-after: 1
   key-duplicates: {}
-  quoted-strings:
-    quote-type: any
-    required: only-when-needed
