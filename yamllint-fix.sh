@@ -25,13 +25,12 @@ fix_yaml() {
     sed -i '/^$/N;/^\n$/D' "$filename"
 
     # Ensure only one empty line at the end of the file
-    if [[ $(wc -l < "$filename") -gt 1 ]]; then
-        sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' "$filename"
-    elif [[ $(wc -l < "$filename") -eq 0 ]]; then
+    if [ "$last_line" != "" ]; then
         echo >> "$filename"
         fixes+=("End of file: { original: \"\", fixed: \"Added newline\" }")
     fi
 
+    # Check for 'new-lines: type: unix' rule
     if ! grep -q 'new-lines:\s*type:\s*unix' "$filename"; then
         fixes+=("new-lines: type: unix rule missing")
     fi
@@ -62,3 +61,7 @@ process_files() {
         done
     done
 }
+
+find . -type f \( -name "*.yaml" -o -name "*.yml" \) | while IFS= read -r file; do
+    process_files "$file"
+done
