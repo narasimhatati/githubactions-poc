@@ -8,13 +8,18 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   lint:
     runs-on: ubuntu-latest
-
+    env:
+      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,11 +38,6 @@ jobs:
           yamllint -c .yamllint .
         continue-on-error: true
 
-      # - name: Fix YAML files
-      #   if: ${{ failure() }}
-      #   needs: lint_yaml
-      #   run: |
-      #     python fix_yaml.py
       - name: Set linting success
         if: steps.lint_yaml.outcome == 'success'
         run: echo "::set-output name=lint_success::true"
@@ -45,4 +45,26 @@ jobs:
       - name: Fix YAML files
         if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
         run: |
-          python fix-yaml.py
+          chmod +x yamllint-fix.sh
+          ./yamllint-fix.sh
+#          python fix_yaml.py
+      - name: Commit and push changes
+        if: steps.lint_yaml.outcome == 'failure' || steps.set-lint-success.outputs.lint_success == 'true'
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git fetch
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git checkout ${{ github.head_ref }}
+          else
+            git checkout ${{ github.ref }}
+          fi
+          git add .
+          git commit -m "automate yaml lint errors-auto commit"
+          git push origin HEAD:${{ github.head_ref }}
+      # - name: Push Changes
+      #   uses: actions/checkout@v4
+      #   with:
+      #     github_token: ${{ secrets.PAT_TOKEN }}
