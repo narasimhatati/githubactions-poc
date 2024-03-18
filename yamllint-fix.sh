@@ -5,28 +5,36 @@ fix_yaml() {
     local fixes=()
     local last_line=$(tail -n1 "$filename" | tr -d '\n\r')
 
-    # Add a newline at the end of the file if missing
-    # if [ "$last_line" != "" ]; then
-    #     echo >> "$filename"
-    #     fixes+=("End of file: { original: \"Missing newline\", fixed: \"Added newline\" }")
-    # fi
+    # Ensure the file starts with '---'
+    if ! head -n1 "$filename" | grep -q '^\-\-\-$'; then
+        echo '---' > "$filename.tmp"
+        cat "$filename" >> "$filename.tmp"
+        mv "$filename.tmp" "$filename"
+        fixes+=("Start of file: { original: \"\", fixed: \"--- added\" }")
+    fi
 
     # Correct indentation
     sed -i 's/^\t/  /g' "$filename"
     sed -i 's/^  $/  /g' "$filename"
+    sed -i 's/^ \{1,3\}/  /g' "$filename"
+    sed -i 's/:\s*/: /g' "$filename"
+    # Remove trailing spaces 
+    sed -i -E 's/[[:space:]]+$//' "$filename"
 
-    # Fix trailing spaces
-    while IFS= read -r line || [[ -n "$line" ]]; do
-        key=$(echo "$line" | cut -d':' -f1)
-        value=$(echo "$line" | cut -d':' -f2-)
-        fixed_value=$(echo "$value" | sed 's/[[:space:]]*$//')
-        if [[ "$fixed_value" != "$value" ]]; then
-            fixes+=("$key: { original: \"$value\", fixed: \"$fixed_value\" }")
-        fi
-        echo "$key: $fixed_value"
-    done < "$filename" > "$filename.tmp"
+    # Remove extra empty lines in the middle of the file
+    sed -i '/^$/N;/^\n$/D' "$filename"
 
-    mv "$filename.tmp" "$filename"
+    # Ensure only one empty line at the end of the file
+    if [ "$last_line" != "" ]; then
+        echo >> "$filename"
+        fixes+=("End of file: { original: \"\", fixed: \"Added newline\" }")
+    fi
+
+    # Check for 'new-lines: type: unix' rule
+    if ! grep -q 'new-lines:\s*type:\s*unix' "$filename"; then
+        fixes+=("new-lines: type: unix rule missing")
+    fi
+
     echo "Fixed YAML file: $filename"
     printf '%s\n' "${fixes[@]}"
 }
@@ -36,9 +44,13 @@ process_files() {
     declare -A all_fixes=()  # Associative array to store fixes for all files
 
     for filepath in "${file_paths[@]}"; do
-        fixes=$(fix_yaml "$filepath")
-        if [ -n "$fixes" ]; then
-            all_fixes["$filepath"]=$fixes
+        if ! echo "$filepath" | grep -q "\.github/workflows/.*\.yaml$"; then
+            fixes=$(fix_yaml "$filepath")
+            if [ -n "$fixes" ]; then
+                all_fixes["$filepath"]=$fixes
+            fi
+        else
+            echo "Skipping file: $filepath"
         fi
     done
 

@@ -65,5 +65,9 @@ jobs:
             git checkout ${{ github.ref }}
           fi
           git add .
-          git commit -m "automate yaml lint errors-auto commit"
-          git push
+          if ! git diff --cached --exit-code; then
+            git commit -m "automate yaml lint errors-auto commit"
+            git push
+          else
+          echo "No changes to commit."
+          fi
