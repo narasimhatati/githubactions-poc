@@ -44,7 +44,7 @@ process_files() {
     declare -A all_fixes=()  # Associative array to store fixes for all files
 
     for filepath in "${file_paths[@]}"; do
-        if [ "$filepath" != "./.github/workflows/**.yaml" ]; then
+        if [ "$filepath" != "./.github/workflows/"*".yaml" ]; then
             fixes=$(fix_yaml "$filepath")
             if [ -n "$fixes" ]; then
                 all_fixes["$filepath"]=$fixes
