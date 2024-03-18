@@ -5,30 +5,34 @@ fix_yaml() {
     local fixes=()
     local last_line=$(tail -n1 "$filename" | tr -d '\n\r')
 
-    # Add a newline at the end of the file if missing
-    # if [ "$last_line" != "" ]; then
-    #     echo >> "$filename"
-    #     fixes+=("End of file: { original: \"Missing newline\", fixed: \"Added newline\" }")
-    # fi
+    if ! head -n1 "$filename" | grep -q '^\-\-\-$'; then
+        echo '---' > "$filename.tmp"
+        cat "$filename" >> "$filename.tmp"
+        mv "$filename.tmp" "$filename"
+        fixes+=("Start of file: { original: \"\", fixed: \"--- added\" }")
+    fi
 
     # Correct indentation
     sed -i 's/^\t/  /g' "$filename"
     sed -i 's/^  $/  /g' "$filename"
 
     # Fix trailing spaces
-    while IFS= read -r line || [[ -n "$line" ]]; do
-        key=$(echo "$line" | cut -d':' -f1)
-        value=$(echo "$line" | cut -d':' -f2-)
-        fixed_value=$(echo "$value" | sed 's/[[:space:]]*$//')
-        if [[ "$fixed_value" != "$value" ]]; then
-            fixes+=("$key: { original: \"$value\", fixed: \"$fixed_value\" }")
-        fi
-        echo "$key: $fixed_value"
-    done < "$filename" > "$filename.tmp"
+    # while IFS= read -r line || [[ -n "$line" ]]; do
+    #     key=$(echo "$line" | cut -d':' -f1)
+    #     value=$(echo "$line" | cut -d':' -f2-)
+    #     fixed_value=$(echo "$value" | sed 's/[[:space:]]*$//')
+    #     if [[ "$fixed_value" != "$value" ]]; then
+    #         fixes+=("$key: { original: \"$value\", fixed: \"$fixed_value\" }")
+    #     fi
+    #     echo "$key: $fixed_value"
+    # done < "$filename" > "$filename.tmp"
 
-    mv "$filename.tmp" "$filename"
+    # mv "$filename.tmp" "$filename"
+    # echo "Fixed YAML file: $filename"
+    sed -i -E 's/[[:space:]]+$//; s/ *: */: /' "$filename"
+
     echo "Fixed YAML file: $filename"
-    printf '%s\n' "${fixes[@]}"
+    # printf '%s\n' "${fixes[@]}"
 }
 
 process_files() {
