@@ -61,8 +61,8 @@ jobs:
           git fetch
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             git checkout ${{ github.head_ref }}
-          else [ "${{ github.event_name }}" = "push" ]; then
-            git checkout ${{ github.ref }}
+          else
+            git checkout main
           fi
           git add .
           if ! git diff --cached --exit-code; then
